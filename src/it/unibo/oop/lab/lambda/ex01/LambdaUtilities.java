@@ -94,7 +94,7 @@ public final class LambdaUtilities {
     public static <K, V> Map<K, V> fill(final Map<K, Optional<V>> map, final Supplier<V> def) {
         Map<K, V> m = new HashMap<>();
         map.forEach((key, val) -> {
-            m.merge(key, val.orElse(def.get()), (old, newV) -> old);
+            m.put(key, val.orElse(def.get()));
         });
         return m;
     }
