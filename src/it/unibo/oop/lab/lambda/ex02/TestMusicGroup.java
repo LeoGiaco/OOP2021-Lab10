@@ -35,14 +35,14 @@ public final class TestMusicGroup {
         lz.addAlbum("II", 1969);
         lz.addAlbum(III, 1970);
         lz.addAlbum(UNTITLED, 1971);
+        lz.addSong("When the Levee Breaks", Optional.of("untitled"), 7.1);
+        lz.addSong("Black Dog", Optional.of("untitled"), 4.9);
         lz.addSong("Dazed and Confused", Optional.of("I"), 6.5);
         lz.addSong("I Can't Quit You Baby", Optional.of("I"), 4.6);
         lz.addSong("Whole Lotta Love", Optional.of("II"), 5.5);
         lz.addSong("Ramble On", Optional.of("II"), 4.6);
         lz.addSong("Immigrant Song", Optional.of(III), 2.4);
         lz.addSong("That's the Way", Optional.of(III), 5.4);
-        lz.addSong("Black Dog", Optional.of("untitled"), 4.9);
-        lz.addSong("When the Levee Breaks", Optional.of("untitled"), 7.1);
         lz.addSong("Travelling Riverside Blues", Optional.empty(), 5.2);
     }
 
