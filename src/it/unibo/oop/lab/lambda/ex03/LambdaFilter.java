@@ -6,7 +6,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,10 +35,41 @@ import javax.swing.JTextArea;
  */
 public final class LambdaFilter extends JFrame {
 
+    /**
+     * ASCII value of character "A".
+     */
+    public static final int UPPERA = 65;
+    /**
+     * ASCII value of character "Z".
+     */
+    public static final int UPPERZ = 90;
+    /**
+     * ASCII value of character "a".
+     */
+    public static final int LOWERA = 97;
+
     private static final long serialVersionUID = 1760990730218643730L;
 
     private enum Command {
-        IDENTITY("No modifications", Function.identity());
+        IDENTITY("No modifications", Function.identity()),
+        TOLOWERCASE("Lower case", str -> str.chars()
+                                            .map(ch -> (ch >= UPPERA && ch <= UPPERZ) ? ch + LOWERA - UPPERA : ch)
+                                            .collect(StringBuilder::new, (s, c) -> s.append((char) c), StringBuilder::append).toString()),
+        NUMCHARS("Number of characters", str -> Long.toString(str.chars().count())),
+        NUMLINES("Number of lines", str -> str.equals("") ? "0" : Long.toString(str.chars()
+                                                                                .filter(ch -> ch == '\n')
+                                                                                .count() + 1)),
+        ORDEREDWORDS("Order words alphabetically", str -> Arrays.asList(str.split(" "))
+                                                                .stream()
+                                                                .sorted(String::compareTo)
+                                                                .collect(Collectors.joining(" "))),
+        WORDCOUNT("Count for each word", str -> Arrays.asList(str.split(" "))
+                .stream()
+                .collect(Collectors.groupingBy(s -> s, HashMap::new, Collectors.mapping(s -> s, Collectors.counting())))
+                .entrySet().stream()
+                .map(e -> e.getKey() + " -> " + e.getValue())
+//                .reduce("", (s1, s2) -> s1.concat(s2 + ", "))
+                .collect(Collectors.joining(", ")));
 
         private final String commandName;
         private final Function<String, String> fun;
